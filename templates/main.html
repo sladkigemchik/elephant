@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elephant - Ремонт компьютеров</title>
+    {% load static %}
+    <link href="{% static 'styles.css' %}?v=2" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <h1>Elephant</h1>
+        <nav>
+          <ul>
+            <li><a href="/" class="active">🏠 Главная</a></li>
+            <li><a href="/services/">🛠️ Услуги</a></li>
+            <li><a href="/team/">👥 Команда</a></li>
+            <li><a href="/news/">📰 Новости</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="about">
+        <h2>Наша история</h2>
+        <p>
+          Мы, компания <strong>Elephant</strong>, специализируемся на ремонте
+          компьютеров с 2010 года. На протяжении более 10 лет мы предоставляем
+          высококачественные услуги по восстановлению техники, чтобы наши
+          клиенты могли работать без перерывов.
+        </p>
+
+        <h2>Наша миссия</h2>
+        <p>
+          Наша миссия — помочь каждому клиенту решить проблемы с компьютером
+          быстро и эффективно. Мы стремимся к высоким стандартам качества, чтобы
+          обеспечить надежность и долгий срок службы вашей техники.
+        </p>
+      </section>
+      <!-- СЕКЦИЯ ФОРМЫ -->
+      <section id="add-form">
+        <h2 class="text-gradient">📝 Добавить материал</h2>
+
+        <form method="post">
+          {% csrf_token %}
+
+          <div style="margin-bottom: 1.5rem">
+            <label
+              style="
+                display: block;
+                margin-bottom: 0.5rem;
+                color: var(--dark-color);
+                font-weight: 600;
+              "
+            >
+              Заголовок:
+            </label>
+            <input
+              type="text"
+              name="title"
+              required
+              style="
+                width: 100%;
+                padding: 1rem;
+                border: 2px solid var(--light-gray);
+                border-radius: var(--border-radius);
+                font-size: 1rem;
+                transition: var(--transition);
+              "
+              placeholder="Введите заголовок (минимум 5 символов)"
+              onfocus="this.style.borderColor='var(--primary-color)'; this.style.boxShadow='0 0 0 3px rgba(58, 134, 255, 0.2)';"
+              onblur="this.style.borderColor='var(--light-gray)'; this.style.boxShadow='none';"
+            />
+          </div>
+
+          <div style="margin-bottom: 1.5rem">
+            <label
+              style="
+                display: block;
+                margin-bottom: 0.5rem;
+                color: var(--dark-color);
+                font-weight: 600;
+              "
+            >
+              Содержание:
+            </label>
+            <textarea
+              name="content"
+              rows="6"
+              required
+              style="
+                width: 100%;
+                padding: 1rem;
+                border: 2px solid var(--light-gray);
+                border-radius: var(--border-radius);
+                font-size: 1rem;
+                transition: var(--transition);
+                resize: vertical;
+                font-family: 'Inter', sans-serif;
+              "
+              placeholder="Опишите ваш материал (минимум 20 символов)"
+              onfocus="this.style.borderColor='var(--primary-color)'; this.style.boxShadow='0 0 0 3px rgba(58, 134, 255, 0.2)';"
+              onblur="this.style.borderColor='var(--light-gray)'; this.style.boxShadow='none';"
+            ></textarea>
+          </div>
+
+          <div style="text-align: right">
+            <button
+              type="submit"
+              style="
+                background: var(--gradient);
+                color: white;
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 50px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: var(--transition);
+                box-shadow: 0 4px 15px rgba(58, 134, 255, 0.3);
+              "
+            >
+              📤 Опубликовать
+            </button>
+          </div>
+        </form>
+      </section>
+      <!-- СЕКЦИЯ ВЫВОДА ЗАПИСЕЙ -->
+      <section
+        style="
+          background: white;
+          border-radius: var(--border-radius);
+          padding: 3rem;
+          margin: 2.5rem auto;
+          max-width: 1100px;
+          box-shadow: var(--box-shadow);
+          transition: var(--transition);
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          position: relative;
+          overflow: hidden;
+        "
+      >
+        <div
+          style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+          "
+        ></div>
+
+        <h2
+          style="
+            color: var(--dark-color);
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            position: relative;
+            font-weight: 800;
+          "
+        >
+          <span
+            style="
+              background: var(--gradient);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            "
+          >
+            📰 Последние записи
+          </span>
+        </h2>
+
+        {% if posts %} {% for post in posts %}
+        <div
+          style="
+            background: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--primary-color);
+            transition: var(--transition);
+          "
+        >
+          <h3
+            style="
+              color: var(--dark-color);
+              font-size: 1.5rem;
+              margin-bottom: 1rem;
+              font-weight: 700;
+            "
+          >
+            {{ post.title }}
+          </h3>
+
+          <div
+            style="
+              color: var(--gray-color);
+              line-height: 1.7;
+              margin-bottom: 1.5rem;
+            "
+          >
+            {{ post.content|linebreaks }}
+          </div>
+
+          <div
+            style="
+              color: var(--gray-color);
+              font-size: 0.9rem;
+              display: flex;
+              gap: 1.5rem;
+              flex-wrap: wrap;
+            "
+          >
+            <span>👤 {{ post.author.username|default:"Аноним" }}</span>
+            <span>📅 {{ post.created_at|date:"d.m.Y H:i" }}</span>
+            {% if post.is_published %}
+            <span style="color: var(--success-color)">✅ Опубликовано</span>
+            {% else %}
+            <span style="color: #ff9800">⏳ Черновик</span>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <div
+          style="text-align: center; padding: 3rem; color: var(--gray-color)"
+        >
+          <div style="font-size: 4rem; margin-bottom: 1rem">📝</div>
+          <h3 style="color: var(--gray-color); margin-bottom: 1rem">
+            Пока нет записей
+          </h3>
+          <p>Будьте первым, кто добавит материал!</p>
+        </div>
+        {% endif %} {% if posts|length >= 10 %}
+        <div style="text-align: center; margin-top: 2rem">
+          <button
+            onclick="location.reload()"
+            style="
+              background: var(--light-gray);
+              color: var(--dark-color);
+              border: none;
+              padding: 0.8rem 1.5rem;
+              border-radius: 50px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: var(--transition);
+            "
+          >
+            🔄 Загрузить ещё
+          </button>
+        </div>
+        {% endif %}
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Компания Elephant. Все права защищены.</p>
+      </div>
+    </footer>
+  </body>
+</html>
